@@ -7,18 +7,32 @@ export blue="\[\033[0;38;5;4m\]"
 export bblue="\[\033[0;38;5;12m\]"
 export magenta="\[\033[0;38;5;55m\]"
 export cyan="\[\033[0;38;5;6m\]"
-export white="\[\033[0;38;5;7m\]"
+export white="\[\033[0;38;5;255m\]"
 export coldblue="\[\033[0;38;5;33m\]"
 export smoothblue="\[\033[0;38;5;111m\]"
 export iceblue="\[\033[0;38;5;45m\]"
 export turqoise="\[\033[0;38;5;50m\]"
 export smoothgreen="\[\033[0;38;5;42m\]"
 
+# Bold ones
+export bgreen="\[\033[1;38;5;2m\]"
+export borange="\[\033[1;38;5;130m\]"
+export bwhite="\[\033[1;38;5;7m\]"
 
+function shorten_prompt () {
+    # a path is passed as argument.
+    # /home/sujeet/ is replaced by ~/
+    # /media/ is replaced by #/
+    case $1 in
+        /home/$(whoami)*) echo $1 | sed -e "s/\/home\/$(whoami)/~/g" ;;
+        /media*) echo $1 | sed -e "s/\/media/#/g" ;;
+    esac
+}
 
 function pre_prompt {
         newPWD="${PWD}"
         user="whoami"
+        newPWD=$(shorten_prompt $newPWD)
         host=$(echo -n $HOSTNAME | sed -e "s/[\.].*//")
         datenow=$(date "+%a, %d %b %y")
         let promptsize=$(echo -n "┌(${PWD})($user@$host ddd., DD mmm YY)┐" \
@@ -42,16 +56,13 @@ PROMPT_COMMAND=pre_prompt
 
 case "$TERM" in
 xterm)
-    PS1="$bblue┌─($orange\u@\h \$(date \"+%a, %d %b %y\")$bblue)─\${fill}─($orange\$newPWD\
-$bblue)─┐\n$bblue└─($orange\$(date \"+%H:%M\") \$$bblue)─>$white "
+    PS1="$borange\$newPWD$bwhite||$bgreen\$(date \"+%H:%M\") \$ $white"
     ;;
 screen)
-    PS1="$bblue┌─($orange\u@\h \$(date \"+%a, %d %b %y\")$bblue)─\${fill}─($orange\$newPWD\
-$bblue)─┐\n$bblue└─($orange\$(date \"+%H:%M\") \$$bblue)─>$white "
+    PS1="$borange\$newPWD$bwhite||$bgreen\$(date \"+%H:%M\") \$ $white"
     ;;    
     *)
-    PS1="┌─(\u@\h \$(date \"+%a, %d %b %y\"))─\${fill}─(\$newPWD\
-)─┐\n└─(\$(date \"+%H:%M\") \$)─> "
+    PS1="\$newPWD | \$(date \"+%H:%M\") \$ "
     ;;
 esac
 
@@ -80,7 +91,7 @@ function load_prompt () {
         PS1="\t - \# - \u@\H { \w }\$ "
     elif [[ $parent_process == emacs* || $parent_process == xemacs* ]]; then
         PROMPT_COMMAND=""
-        PS1="\u@\h { \w }\$ "
+        PS1="\$newPWD$white | \$(date \"+%H:%M\") \$ "
     else
         export DAY=$(date +%A)
         PROMPT_COMMAND=pre_prompt
@@ -89,4 +100,3 @@ function load_prompt () {
 }
 
 load_prompt
-

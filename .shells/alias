@@ -5,33 +5,24 @@ alias lal='ls -alh'
 alias la='ls -A'
 alias pms='sudo pm-suspend'
 alias psg='ps -A | grep'
-alias se='sudo gvim'
-alias e='gvim'
-alias grep='grep --color -n'
+alias se='sudo emacs'
+alias kse='kdesu emacs'
+alias e='emacs'
+alias grep='egrep --color -n'
 alias smi='sudo make install'
+alias pacman='pacman-color'
 alias l='ls -CF'
 
 # This one is to take care of make
 # Give me a nice, distinguishable make output
-alias make='clear && make'
+alias make='reset && make'
 alias m='make'
 
 
 # Some more, to avoid mistakes
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
-
-# SSH Alias
-alias dcf='ssh rkirti@10.6.16.16'
-alias dcf1='ssh rkirti@10.6.16.10'
-alias dcf2='ssh rkirti@10.6.16.23'
-alias dcfmail='ssh rkirti@10.6.5.215'
-
-
-
-
+# alias rm='rm -i'
+# alias cp='cp -i'
+# alias mv='mv -i'
 
 # Git Commands
 # Add and Commit are used as functions
@@ -42,16 +33,8 @@ alias gd='git-diff'
 alias gr='git-reflog'
 alias glf='git-ls-files'
 
-
-
 # Acad aliases 
-alias cs351='cd ~/code/cs351'
-alias cs331='cd ~/code/cs331'
-alias cs370='cd ~/code/cs370'
-
-
+alias courses='cd /media/Arbit/Courses'
 
 # Shortcut to test quick changes to bashrc
 alias reload='source ~/.bashrc'
-
-
