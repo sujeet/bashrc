@@ -66,14 +66,6 @@ screen)
     ;;
 esac
 
-
-
-# Cool colors for Man Pages
-alias man="TERMINFO=~/.terminfo TERM=mostlike LESS=C PAGER=less man"
-
-
-     
-
 # Determine what prompt to display:
 # 1.  Display simple custom prompt for shell sessions started
 #     by script.  

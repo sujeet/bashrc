@@ -38,3 +38,16 @@ alias courses='cd /media/Arbit/Courses'
 
 # Shortcut to test quick changes to bashrc
 alias reload='source ~/.bashrc'
+
+# Coloured man pages.
+
+#################################################
+# First you got to do the following if          #
+# you haven't compiled "mostlike.txt" with tic. #
+#                                               #
+# $ mkdir ~/.terminfo/ && cd ~/.terminfo        #
+# $ wget http://nion.modprobe.de/mostlike.txt   #
+# $ tic mostlike.txt                            #
+#################################################
+
+alias man="TERMINFO=~/.terminfo/ LESS=C TERM=mostlike PAGER=less man"
