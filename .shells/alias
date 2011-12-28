@@ -12,6 +12,19 @@ alias grep='egrep --color -n'
 alias smi='sudo make install'
 alias pacman='pacman-color'
 alias l='ls -CF'
+alias diff='colordiff'              # requires colordiff package
+alias mkdir='mkdir -p -v'
+alias ..='cd ..'
+
+# privileged access
+if [ $UID -ne 0 ]; then
+    alias scat='sudo cat'
+    alias svim='sudo vim'
+    alias svi='sudo vi'
+    alias root='sudo su'
+    alias reboot='sudo reboot'
+    alias halt='sudo halt'
+fi
 
 # This one is to take care of make
 # Give me a nice, distinguishable make output
@@ -39,9 +52,10 @@ alias courses='cd /media/Arbit/Courses'
 # Shortcut to test quick changes to bashrc
 alias reload='source ~/.bashrc'
 
-# Coloured man pages.
-
 #################################################
+#             Coloured man pages.               #
+#_______________________________________________#
+#                                              _#
 # First you got to do the following if          #
 # you haven't compiled "mostlike.txt" with tic. #
 #                                               #
@@ -51,3 +65,23 @@ alias reload='source ~/.bashrc'
 #################################################
 
 alias man="TERMINFO=~/.terminfo/ LESS=C TERM=mostlike PAGER=less man"
+
+# Pacakge management aliases.
+case $(uname -a) in
+    *ARCH*)
+       # Arch aliases here.
+        alias install="sudo pacman -S "
+        alias install-pkg="sudo pacman -U "
+        alias uninstall="sudo pacman -Rns "
+        alias search="pacman -Ss "
+        alias update="sudo pacman -Syu"
+        ;;
+    *Ubuntu*) 
+        # ubuntu aliases here.
+        alias install="sudo apt-get install "
+        alias install-pkg="sudo dpkg -i "
+        alias uninstall="sudo apt-get --purge remove "
+        alias search="apt-cache search "
+        alias update="sudo apt-get update && sudo apt-get upgrade"
+        ;;
+esac

@@ -25,7 +25,8 @@ function shorten_prompt () {
     # /media/ is replaced by #/
     case $1 in
         /home/$(whoami)*) echo $1 | sed -e "s/\/home\/$(whoami)/~/g" ;;
-        /media*) echo $1 | sed -e "s/\/media/#/g" ;;
+        /media*)          echo $1 | sed -e "s/\/media/#/g" ;;
+        *)                echo $1 ;;
     esac
 }
 
