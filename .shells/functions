@@ -1,12 +1,35 @@
 # Function to install AUR packages.
 function install-aur () {
     # Takes the url of the package as argument.
+    # Alternately, it can also take the packagename
+    # as argument also, but it might or might not work.
+    # Bcause it is based on assumption that a package
+    # named sujeet will be found at
+    # http://aur.archlinux.org/packages/su/sujeet/sujeet.tar.gz
+    # that is, the first two letters appear after /packages/
+
     mkdir -p ~/builds
     curr_dir=$(pwd)
     cd ~/builds
-    wget $1
-    pkg_file=$(basename $1)
+
+    # Check whether the argument is a package-name or an url
+    # to the package. (assuming package names don't contain
+    # "." while the urls always do.
+    case $1 in
+        *.*) 
+            pkg_url=$1 
+            ;;
+        *)   
+            pkg_url=http://aur.archlinux.org/packages/${1:0:2}/${1}/${1}.tar.gz
+            ;;
+    esac
+
+    # Download
+    wget $pkg_url
+
+    pkg_file=$(basename $pkg_url)
     extract $pkg_file
+
     dir_name=${pkg_file%%.*}    # get the filename without extension.
     cd $dir_name
     makepkg -s
