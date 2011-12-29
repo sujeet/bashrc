@@ -1,3 +1,19 @@
+# Function to install AUR packages.
+function install-aur () {
+    # Takes the url of the package as argument.
+    mkdir -p ~/builds
+    curr_dir=$(pwd)
+    cd ~/builds
+    wget $1
+    pkg_file=$(basename $1)
+    extract $pkg_file
+    dir_name=${pkg_file%%.*}    # get the filename without extension.
+    cd $dir_name
+    makepkg -s
+    install-pkg *.pkg.tar.xz
+    cd $curr_dir
+}
+
 function extract () {
     if [ -f $1 ] ; then
         case $1 in
