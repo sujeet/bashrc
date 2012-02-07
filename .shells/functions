@@ -9,7 +9,7 @@ function install-aur () {
     # that is, the first two letters appear after /packages/
 
     mkdir -p ~/builds
-    curr_dir=$(pwd)
+    local curr_dir=$(pwd)
     cd ~/builds
 
     # Check whether the argument is a package-name or an url
@@ -17,20 +17,21 @@ function install-aur () {
     # "." while the urls always do.
     case $1 in
         *.*) 
-            pkg_url=$1 
+            local pkg_url=$1
             ;;
         *)   
-            pkg_url=http://aur.archlinux.org/packages/${1:0:2}/${1}/${1}.tar.gz
+            local pkg_url=http://aur.archlinux.org/packages/${1:0:2}/${1}/${1}.tar.gz
             ;;
     esac
 
-    # Download
-    wget $pkg_url
+    local pkg_file=$(basename $pkg_url)
+    local dir_name=${pkg_file%%.*}    # get the filename without extension.
 
-    pkg_file=$(basename $pkg_url)
+    # Download. Delete the old one before that.
+    rm -rf  ${dir_name}*
+    wget    $pkg_url
     extract $pkg_file
 
-    dir_name=${pkg_file%%.*}    # get the filename without extension.
     cd $dir_name
     makepkg -s
     install-pkg *.pkg.tar.xz
