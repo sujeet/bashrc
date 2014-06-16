@@ -21,11 +21,9 @@ export bwhite="\[\033[1;38;5;7m\]"
 
 function shorten_prompt () {
     # a path is passed as argument.
-    # /home/sujeet/ is replaced by ~/
-    # /media/ is replaced by #/
+    # /Users/sujeet/ is replaced by ~/
     case $1 in
-        /home/$(whoami)*) echo $1 | sed -e "s/\/home\/$(whoami)/~/g" ;;
-        /media*)          echo $1 | sed -e "s/\/media/#/g" ;;
+        /Users/$(whoami)*) echo $1 | sed -e "s/\/Users\/$(whoami)/~/g" ;;
         *)                echo $1 ;;
     esac
 }
@@ -55,40 +53,11 @@ function pre_prompt {
 
 PROMPT_COMMAND=pre_prompt
 
-case "$TERM" in
-xterm)
-    PS1="$borange\$newPWD$bwhite||$bgreen\$(date \"+%H:%M\") \$ $white"
-    ;;
-screen)
-    PS1="$borange\$newPWD$bwhite||$bgreen\$(date \"+%H:%M\") \$ $white"
-    ;;    
-    *)
-    PS1="\$newPWD | \$(date \"+%H:%M\") \$ "
-    ;;
-esac
-
-# Determine what prompt to display:
-# 1.  Display simple custom prompt for shell sessions started
-#     by script.  
-# 2.  Display "bland" prompt for shell sessions within emacs or 
-#     xemacs.
-# 3   Display promptcmd for all other cases.
+PS1="$borange\$newPWD$bwhite||$bgreen\$(hostname) \$ $white"
 
 function load_prompt () {
-    # Get PIDs
-    local parent_process=$(cat /proc/$PPID/cmdline | cut -d \. -f 1)
-    local my_process=$(cat /proc/$$/cmdline | cut -d \. -f 1)
-
-    if  [[ $parent_process == script* ]]; then
-        PROMPT_COMMAND=""
-        PS1="\t - \# - \u@\H { \w }\$ "
-    elif [[ $parent_process == emacs* || $parent_process == xemacs* ]]; then
-        PROMPT_COMMAND=""
-        PS1="\$newPWD$white | \$(date \"+%H:%M\") \$ "
-    else
-        export DAY=$(date +%A)
-        PROMPT_COMMAND=pre_prompt
-     fi 
+    export DAY=$(date +%A)
+    PROMPT_COMMAND=pre_prompt
     export PS1 PROMPT_COMMAND
 }
 

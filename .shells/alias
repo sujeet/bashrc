@@ -1,30 +1,15 @@
 # Cute shell shortcuts
-alias ls='ls --sort=extension --color=auto'
+alias ls='ls -G'
 alias ll='ls -lh'
 alias lal='ls -alh'
 alias la='ls -A'
 alias pms='sudo pm-suspend'
-alias psg='ps aux | grep'
-alias se='sudo emacs'
-alias kse='kdesu emacs'
-alias e='emacs'
+alias psg='ps aux | grep -i'
 alias grep='egrep --color -n'
-alias smi='sudo make install'
-alias pacman='pacman-color'
 alias l='ls -CF'
 alias diff='colordiff'              # requires colordiff package
 alias mkdir='mkdir -p -v'
 alias ..='cd ..'
-
-# privileged access
-if [ $UID -ne 0 ]; then
-    alias scat='sudo cat'
-    alias svim='sudo vim'
-    alias svi='sudo vi'
-    alias root='sudo su'
-    alias reboot='sudo reboot'
-    alias halt='sudo halt'
-fi
 
 # This one is to take care of make
 # Give me a nice, distinguishable make output
@@ -46,9 +31,6 @@ alias gd='git-diff'
 alias gr='git-reflog'
 alias glf='git-ls-files'
 
-# Acad aliases 
-alias courses='cd /media/Arbit/Courses'
-
 # Shortcut to test quick changes to bashrc
 alias reload='source ~/.bashrc'
 
@@ -65,23 +47,3 @@ alias reload='source ~/.bashrc'
 #################################################
 
 alias man="TERMINFO=~/.terminfo/ LESS=C TERM=mostlike PAGER=less man"
-
-# Pacakge management aliases.
-case $(uname -a) in
-    *ARCH*)
-       # Arch aliases here.
-        alias install="sudo pacman -S "
-        alias install-pkg="sudo pacman -U "
-        alias uninstall="sudo pacman -Rns "
-        alias search="pacman -Ss "
-        alias update="sudo pacman -Syu"
-        ;;
-    *Ubuntu*) 
-        # ubuntu aliases here.
-        alias install="sudo apt-get install "
-        alias install-pkg="sudo dpkg -i "
-        alias uninstall="sudo apt-get --purge remove "
-        alias search="apt-cache search "
-        alias update="sudo apt-get update && sudo apt-get upgrade"
-        ;;
-esac
